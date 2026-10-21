@@ -42,29 +42,29 @@ export const UpdatesTab: React.FC<UpdatesTabProps> = ({
     <div className="space-y-4">
       {/* 1-CLICK GITHUB RELEASE APP UPDATER */}
       <div
-        className={`neon-card p-5 border-2 transition-all ${
+        className={`cyber-card p-5 border-2 transition-all ${
           appHasUpdate
-            ? "border-cyan-400 bg-gradient-to-r from-blue-500/10 via-cyan-500/10 to-indigo-500/10 dark:from-blue-950/40 dark:to-indigo-950/40"
-            : "border-slate-200 dark:border-slate-800"
+            ? "border-cyan-400 shadow-[0_0_25px_rgba(0,240,255,0.3)]"
+            : "border-cyan-500/30"
         }`}
       >
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2.5">
-              <span className="p-2 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white shadow-md shadow-cyan-500/20">
+              <span className="p-2 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-400 shadow-[0_0_12px_rgba(0,240,255,0.4)]">
                 <Sparkles className="w-5 h-5" />
               </span>
               <div>
-                <h2 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                  GM Downloader App Updater
-                  <span className="px-2 py-0.5 text-[10px] font-black rounded-full bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-700">
-                    Installed: v2.0.1
+                <h2 className="text-base font-black text-white flex items-center gap-2 font-mono">
+                  Z Downloader App Updater
+                  <span className="cyber-badge cyber-badge-cyan">
+                    Installed: v0.0.0
                   </span>
                 </h2>
-                <p className="text-xs text-slate-600 dark:text-slate-300">
+                <p className="text-xs text-slate-300 font-mono">
                   {appHasUpdate
                     ? `🎉 New GitHub Release Available: ${latestAppVersion}! Update now with 1 click.`
-                    : "✔ You are running the latest official release from GitHub. Connected to GitHub Releases API."}
+                    : "✔ You are running the official v0.0.0 Cyberpunk Edition from GitHub."}
                 </p>
               </div>
             </div>
@@ -76,7 +76,7 @@ export const UpdatesTab: React.FC<UpdatesTabProps> = ({
                 type="button"
                 onClick={on1ClickAppUpdate}
                 disabled={isUpdatingApp}
-                className="neon-btn-primary w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/30 animate-pulse"
+                className="cyber-btn-cyan w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2 animate-pulse"
               >
                 {isUpdatingApp ? (
                   <>
@@ -95,7 +95,7 @@ export const UpdatesTab: React.FC<UpdatesTabProps> = ({
                 type="button"
                 onClick={onCheckUpdates}
                 disabled={checking}
-                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 flex items-center gap-1.5"
+                className="px-4 py-2 rounded-xl bg-cyan-950/40 text-xs font-mono font-bold text-cyan-300 border border-cyan-500/40 hover:border-cyan-400 transition-all flex items-center gap-1.5"
               >
                 <RefreshCw
                   className={`w-3.5 h-3.5 ${checking ? "animate-spin" : ""}`}
@@ -105,7 +105,7 @@ export const UpdatesTab: React.FC<UpdatesTabProps> = ({
             )}
 
             <a
-              href="https://github.com/golam-mowla/GM-Downloader/releases"
+              href="https://github.com/golam-mowla/Z-Downloader/releases"
               target="_blank"
               rel="noopener noreferrer"
               className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center gap-1.5 shrink-0"

@@ -284,4 +284,90 @@
       setTimeout(() => toast.remove(), 400);
     }, 3800);
   }
+
+  // -------------------------------------------------------------------------
+  // IDM-Style Floating Video Grabber Button
+  // -------------------------------------------------------------------------
+  let activeGrabber = null;
+
+  function injectVideoGrabber(video) {
+    if (!video || activeGrabber) return;
+
+    const rect = video.getBoundingClientRect();
+    if (rect.width < 160 || rect.height < 100) return;
+
+    const grabber = document.createElement("div");
+    grabber.id = "z-video-grabber-btn";
+    Object.assign(grabber.style, {
+      position: "fixed",
+      top: `${Math.max(10, rect.top + 12)}px`,
+      right: `${Math.max(10, window.innerWidth - rect.right + 14)}px`,
+      zIndex: "2147483640",
+      display: "flex",
+      alignItems: "center",
+      gap: "6px",
+      padding: "6px 12px",
+      borderRadius: "6px",
+      background: "rgba(5, 7, 14, 0.92)",
+      border: "1.5px solid #00f0ff",
+      color: "#00f0ff",
+      fontFamily: "'JetBrains Mono', Consolas, monospace",
+      fontSize: "11px",
+      fontWeight: "800",
+      letterSpacing: "0.04em",
+      cursor: "pointer",
+      boxShadow: "0 4px 15px rgba(0, 0, 0, 0.8), 0 0 12px rgba(0, 240, 255, 0.5)",
+      transition: "all 0.2s ease",
+      backdropFilter: "blur(6px)",
+    });
+
+    grabber.innerHTML = `<span>⚡</span><span>Download with Z Downloader</span>`;
+
+    grabber.addEventListener("mouseenter", () => {
+      grabber.style.transform = "scale(1.05)";
+      grabber.style.boxShadow = "0 6px 20px rgba(0, 0, 0, 0.9), 0 0 18px rgba(0, 240, 255, 0.8)";
+    });
+
+    grabber.addEventListener("mouseleave", () => {
+      grabber.style.transform = "scale(1)";
+    });
+
+    grabber.addEventListener("click", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const mediaUrl = extractMediaUrl(video);
+      chrome.runtime.sendMessage({ action: "DOWNLOAD_URL", url: mediaUrl });
+      grabber.remove();
+      activeGrabber = null;
+    });
+
+    document.body.appendChild(grabber);
+    activeGrabber = grabber;
+
+    const removeCheck = () => {
+      if (activeGrabber) {
+        activeGrabber.remove();
+        activeGrabber = null;
+      }
+    };
+
+    video.addEventListener("mouseleave", (e) => {
+      setTimeout(() => {
+        if (activeGrabber && !activeGrabber.matches(":hover")) {
+          removeCheck();
+        }
+      }, 800);
+    });
+  }
+
+  document.addEventListener(
+    "mouseover",
+    (e) => {
+      const vid = e.target.tagName === "VIDEO" ? e.target : e.target.closest("video");
+      if (vid) {
+        injectVideoGrabber(vid);
+      }
+    },
+    true
+  );
 })();

@@ -6,6 +6,8 @@ use std::io::{BufRead, BufReader};
 use std::path::PathBuf;
 use std::process::{Command, Stdio};
 use std::sync::{Arc, Mutex};
+use tauri::menu::{Menu, MenuItem};
+use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
 use tauri::{command, AppHandle, Emitter, Manager, State};
 
 #[cfg(target_os = "windows")]
@@ -2057,6 +2059,12 @@ pub fn run() {
         .manage(AppUrlState {
             pending_url: Arc::new(Mutex::new(pending_arg_url)),
         })
+        .on_window_event(|window, event| {
+            if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+                api.prevent_close();
+                let _ = window.hide();
+            }
+        })
         .setup(|app| {
             #[cfg(target_os = "windows")]
             register_windows_protocols();
@@ -2065,6 +2073,49 @@ pub fn run() {
             tauri::async_runtime::spawn(async move {
                 start_local_bridge(handle).await;
             });
+
+            // Build System Tray
+            let show_i = MenuItem::with_id(app, "show", "Open Z Downloader ⚡", true, None::<&str>)?;
+            let quit_i = MenuItem::with_id(app, "quit", "Exit Z Downloader", true, None::<&str>)?;
+            let menu = Menu::with_items(app, &[&show_i, &quit_i])?;
+
+            if let Some(icon) = app.default_window_icon() {
+                let _tray = TrayIconBuilder::new()
+                    .icon(icon.clone())
+                    .tooltip("Z Downloader // Cyberpunk Edition")
+                    .menu(&menu)
+                    .show_menu_on_left_click(false)
+                    .on_menu_event(|app, event| match event.id.as_ref() {
+                        "show" => {
+                            if let Some(win) = app.get_webview_window("main") {
+                                let _ = win.show();
+                                let _ = win.unminimize();
+                                let _ = win.set_focus();
+                            }
+                        }
+                        "quit" => {
+                            std::process::exit(0);
+                        }
+                        _ => {}
+                    })
+                    .on_tray_icon_event(|tray, event| {
+                        if let TrayIconEvent::Click {
+                            button: MouseButton::Left,
+                            button_state: MouseButtonState::Up,
+                            ..
+                        } = event
+                        {
+                            let app = tray.app_handle();
+                            if let Some(win) = app.get_webview_window("main") {
+                                let _ = win.show();
+                                let _ = win.unminimize();
+                                let _ = win.set_focus();
+                            }
+                        }
+                    })
+                    .build(app)?;
+            }
+
             Ok(())
         })
         .plugin(tauri_plugin_shell::init())
