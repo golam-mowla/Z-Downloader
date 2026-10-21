@@ -227,7 +227,7 @@ export function App() {
 
   const [options, setOptions] = useState<DownloadOptions>(() => {
     try {
-      const saved = localStorage.getItem("gm_downloader_options_v2");
+      const saved = localStorage.getItem("z_downloader_options_v2") || localStorage.getItem("gm_downloader_options_v2");
       if (saved) {
         return {
           ...DEFAULT_OPTIONS,
@@ -341,7 +341,7 @@ export function App() {
     try {
       // Exclude session link and custom filename so app always opens fresh and clean
       const toSave = { ...options, url: "", customFilename: "" };
-      localStorage.setItem("gm_downloader_options_v2", JSON.stringify(toSave));
+      localStorage.setItem("z_downloader_options_v2", JSON.stringify(toSave));
     } catch {
       // ignore
     }
@@ -350,7 +350,7 @@ export function App() {
   // Persist history
   useEffect(() => {
     try {
-      localStorage.setItem("gm_downloader_history_v2", JSON.stringify(tasks));
+      localStorage.setItem("z_downloader_history_v2", JSON.stringify(tasks));
     } catch {
       // ignore
     }
