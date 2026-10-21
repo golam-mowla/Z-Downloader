@@ -1662,6 +1662,10 @@ async fn start_torrent_download(
     torrent_or_magnet: String,
     save_folder: String,
 ) -> Result<(), String> {
+    let active_pids = state.active_pids.clone();
+    let cancelled_tasks = state.cancelled_tasks.clone();
+    cancelled_tasks.lock().unwrap().insert(task_id.clone(), false);
+
     tauri::async_runtime::spawn_blocking(move || {
         let tid = task_id.clone();
         let _ = fs::create_dir_all(&save_folder);
@@ -1709,10 +1713,8 @@ async fn start_torrent_download(
 
         let pid = child.id();
         {
-            let mut pids = state.active_pids.lock().unwrap();
+            let mut pids = active_pids.lock().unwrap();
             pids.insert(tid.clone(), pid);
-            let mut cancels = state.cancelled_tasks.lock().unwrap();
-            cancels.insert(tid.clone(), false);
         }
 
         let _ = app.emit(
@@ -1777,12 +1779,12 @@ async fn start_torrent_download(
 
         let status = child.wait();
         {
-            let mut pids = state.active_pids.lock().unwrap();
+            let mut pids = active_pids.lock().unwrap();
             pids.remove(&tid);
         }
 
         let is_cancelled = {
-            let cancels = state.cancelled_tasks.lock().unwrap();
+            let cancels = cancelled_tasks.lock().unwrap();
             *cancels.get(&tid).unwrap_or(&false)
         };
 
