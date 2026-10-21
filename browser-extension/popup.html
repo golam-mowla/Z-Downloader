@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Z Downloader // Cyberpunk Edition</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="header">
+    <div class="logo-box">
+      <img src="icons/icon48.png" alt="Z Dragon" class="logo-img">
+      <div class="title-group">
+        <span class="app-title">Z DOWNLOADER</span>
+        <span class="app-sub">CYBERPUNK IDM &amp; MEDIA SNIFFER</span>
+      </div>
+    </div>
+    <span class="version-badge">v0.0.0</span>
+  </div>
+
+  <div class="status-card">
+    <div class="status-indicator">
+      <span class="status-dot" id="status-dot"></span>
+      <span class="status-text" id="status-text">INITIALIZING SENSORS...</span>
+    </div>
+    <span class="mode-badge" id="mode-badge">IDM // ACTIVE</span>
+  </div>
+
+  <div class="toggle-card">
+    <label class="toggle-row">
+      <span class="toggle-label">⚡ Auto-Intercept Downloads (IDM Mode)</span>
+      <input type="checkbox" id="toggle-idm" checked>
+      <span class="slider"></span>
+    </label>
+    <label class="toggle-row">
+      <span class="toggle-label">🧲 Catch Magnet &amp; Torrent Links</span>
+      <input type="checkbox" id="toggle-torrent" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="main-body">
+    <div class="section-title">ACTIVE TAB TARGET</div>
+    <div class="current-url-box" id="current-url" title="Current tab target">Detecting active tab...</div>
+    <button class="btn btn-primary" id="btn-download-current">
+      <span class="btn-icon">⚡</span>
+      <span>GRAB ACTIVE TARGET</span>
+    </button>
+
+    <div class="divider"><span>DIRECT INJECTION</span></div>
+
+    <div class="input-group">
+      <input type="text" id="custom-url-input" placeholder="Paste URL, Video or Magnet link...">
+      <button class="btn btn-secondary" id="btn-download-custom">INJECT</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>💡 Right-click any video or link and click <b>Download with Z Downloader ⚡</b></span>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

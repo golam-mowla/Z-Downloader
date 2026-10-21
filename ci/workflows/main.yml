@@ -1,0 +1,66 @@
+name: "Release & Build Z Downloader (Windows)"
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    permissions:
+      contents: write
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: Install Frontend Dependencies
+        run: npm install
+
+      - name: Build Tauri 2 Windows App & Create Release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: 'Z Downloader v__VERSION__'
+          releaseBody: |
+            ### ⚡ Z Downloader // Cyberpunk Edition v__VERSION__
+            High-speed, lightweight media and BitTorrent downloader for Windows powered by Tauri 2, Rust, and React.
+            
+            #### 🌟 Features:
+            - **Multi-threaded Fast Download:** Powered by aria2c and yt-dlp.
+            - **BitTorrent / Magnet Engine:** High-performance torrent client with DHT & PEX.
+            - **IDM Browser Interceptor:** Automatically catches downloads from Chrome, Edge, and Brave.
+            - **Cyberpunk UI:** Dark futuristic aesthetic with low RAM usage (~35MB).
+            - **Windows Exclusive:** Fast native Windows integration and custom protocol handler (`zdownloader://`).
+          releaseDraft: false
+          prerelease: false
+
+      - name: Upload Windows Executable Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Z-Downloader-Windows-x64
+          path: |
+            src-tauri/target/release/z-downloader.exe
+            src-tauri/target/release/bundle/nsis/*.exe
+          if-no-files-found: warn

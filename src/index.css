@@ -1,0 +1,229 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 224 71% 4%;
+    --foreground: 210 40% 98%;
+    --card: 224 71% 6%;
+    --card-foreground: 210 40% 98%;
+    --primary: 189 100% 50%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 215 27.9% 14%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 215 27.9% 14%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 330 100% 50%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 215 27.9% 18%;
+    --input: 215 27.9% 16%;
+    --ring: 189 100% 50%;
+    --radius: 0.75rem;
+  }
+}
+
+body {
+  font-family: "JetBrains Mono", "SF Mono", Consolas, "Segoe UI", sans-serif;
+  background-color: #05070e;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(0, 240, 255, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(255, 0, 127, 0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(255, 230, 0, 0.08) 0px, transparent 55%),
+    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+  color: #e2e8f0;
+  user-select: none;
+  overflow-x: hidden;
+}
+
+/* Cyberpunk Card */
+.neon-card, .cyber-card {
+  background: rgba(10, 14, 26, 0.88);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.7), 0 0 16px rgba(0, 240, 255, 0.12);
+  backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neon-card:hover, .cyber-card:hover {
+  border-color: rgba(0, 240, 255, 0.55);
+  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 240, 255, 0.22);
+}
+
+.cyber-card-pink {
+  border-color: rgba(255, 0, 127, 0.35);
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.7), 0 0 16px rgba(255, 0, 127, 0.15);
+}
+
+.cyber-card-pink:hover {
+  border-color: rgba(255, 0, 127, 0.65);
+  box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 0, 127, 0.28);
+}
+
+/* Neon Borders */
+.neon-border-cyan {
+  border: 1.5px solid #00f0ff !important;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.45) !important;
+}
+
+.neon-border-pink {
+  border: 1.5px solid #ff007f !important;
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.45) !important;
+}
+
+.neon-border-yellow {
+  border: 1.5px solid #ffe600 !important;
+  box-shadow: 0 0 20px rgba(255, 230, 0, 0.45) !important;
+}
+
+.neon-border-emerald {
+  border: 1.5px solid #00ff66 !important;
+  box-shadow: 0 0 20px rgba(0, 255, 102, 0.45) !important;
+}
+
+/* Cyber Buttons */
+.neon-btn-primary, .cyber-btn-cyan {
+  background: linear-gradient(135deg, #00f0ff 0%, #0077ff 60%, #7928ca 100%);
+  color: #030712;
+  font-weight: 900;
+  border: 1px solid #00f0ff;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.5), inset 0 0 8px rgba(255, 255, 255, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.neon-btn-primary:hover:not(:disabled), .cyber-btn-cyan:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 0 26px rgba(0, 240, 255, 0.75), inset 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+.cyber-btn-pink {
+  background: linear-gradient(135deg, #ff007f 0%, #d9006c 60%, #7928ca 100%);
+  color: #ffffff;
+  font-weight: 900;
+  border: 1px solid #ff007f;
+  box-shadow: 0 0 16px rgba(255, 0, 127, 0.5);
+  transition: all 0.2s ease;
+}
+
+.cyber-btn-pink:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 26px rgba(255, 0, 127, 0.75);
+}
+
+.cyber-btn-yellow {
+  background: linear-gradient(135deg, #ffe600 0%, #ff9900 100%);
+  color: #030712;
+  font-weight: 900;
+  border: 1px solid #ffe600;
+  box-shadow: 0 0 16px rgba(255, 230, 0, 0.5);
+  transition: all 0.2s ease;
+}
+
+.cyber-btn-yellow:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 26px rgba(255, 230, 0, 0.8);
+}
+
+/* Cyber Input */
+.neon-input, .cyber-input {
+  background: rgba(13, 18, 32, 0.9);
+  border: 1.5px solid rgba(0, 240, 255, 0.3);
+  border-radius: 10px;
+  color: #f1f5f9;
+  font-family: monospace;
+  transition: all 0.2s ease;
+}
+
+.neon-input:focus, .cyber-input:focus {
+  outline: none;
+  border-color: #00f0ff;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.35);
+  background: rgba(15, 23, 42, 0.95);
+}
+
+/* Cyber HUD Badges */
+.cyber-badge {
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.cyber-badge-cyan {
+  background: rgba(0, 240, 255, 0.12);
+  color: #00f0ff;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.cyber-badge-pink {
+  background: rgba(255, 0, 127, 0.12);
+  color: #ff007f;
+  border: 1px solid rgba(255, 0, 127, 0.45);
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
+}
+
+.cyber-badge-yellow {
+  background: rgba(255, 230, 0, 0.12);
+  color: #ffe600;
+  border: 1px solid rgba(255, 230, 0, 0.45);
+  box-shadow: 0 0 10px rgba(255, 230, 0, 0.2);
+}
+
+.cyber-badge-green {
+  background: rgba(0, 255, 102, 0.12);
+  color: #00ff66;
+  border: 1px solid rgba(0, 255, 102, 0.45);
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+}
+
+/* Cyber HUD Frame */
+.cyber-frame {
+  position: relative;
+}
+.cyber-frame::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #00f0ff;
+  border-left: 2px solid #00f0ff;
+}
+.cyber-frame::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid #ff007f;
+  border-right: 2px solid #ff007f;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(5, 7, 14, 0.8);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.35);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.7);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
